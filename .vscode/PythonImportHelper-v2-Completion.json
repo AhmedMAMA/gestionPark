@@ -1,0 +1,512 @@
+[
+    {
+        "label": "cv2",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "cv2",
+        "description": "cv2",
+        "detail": "cv2",
+        "documentation": {}
+    },
+    {
+        "label": "easyocr",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "easyocr",
+        "description": "easyocr",
+        "detail": "easyocr",
+        "documentation": {}
+    },
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "ImageEnhance",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "*",
+        "importPath": "classes.reconnaissanceTexte",
+        "description": "classes.reconnaissanceTexte",
+        "isExtraImport": true,
+        "detail": "classes.reconnaissanceTexte",
+        "documentation": {}
+    },
+    {
+        "label": "ReconnaissanceTexte",
+        "kind": 6,
+        "importPath": "classes.reconnaissanceTexte",
+        "description": "classes.reconnaissanceTexte",
+        "peekOfCode": "class ReconnaissanceTexte:\n    reader = easyocr.Reader(['fr', 'en'])  # Initialiser EasyOCR une seule fois\n    def __init__(self,image,name=\"\",horaire=\"\",place=\"\",address=\"\",id=\"\"):\n        self.name= name\n        self.horaire = horaire\n        self.address = address\n        self.id = id\n        self.image =  cv2.imread(image)\n        if self.image is None:\n            print(f\"⚠️ Erreur : Impossible de charger l'image '{image}'. Vérifiez le chemin.\")",
+        "detail": "classes.reconnaissanceTexte",
+        "documentation": {}
+    },
+    {
+        "label": "GPT",
+        "kind": 2,
+        "importPath": "classes.reconnaissanceTexte",
+        "description": "classes.reconnaissanceTexte",
+        "peekOfCode": "def GPT(path):\n    # Read the image\n    img_open = cv2.imread(f'/home/ahmed/Bureau/Projet/OpenCV/images/{path}')  \n    if img_open is None:\n        print(\"Error: Image not found or unable to load.\")\n        return\n    # Convert to grayscale\n    gray = cv2.cvtColor(img_open, cv2.COLOR_BGR2GRAY)\n    # Apply threshold to binarize the image\n    _, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)",
+        "detail": "classes.reconnaissanceTexte",
+        "documentation": {}
+    },
+    {
+        "label": "traitementProfond",
+        "kind": 2,
+        "importPath": "classes.reconnaissanceTexte",
+        "description": "classes.reconnaissanceTexte",
+        "peekOfCode": "def traitementProfond(result_gpt_EASYOCR_ONLY,path,function):\n    global num\n    num += 1\n    print(f'result_gpt_EASYOCR_ONLY : {result_gpt_EASYOCR_ONLY}')\n    if result_gpt_EASYOCR_ONLY == []:\n        print(\"Il n'y a pas de texte dans votre élément\")\n        return\n    print(f\"==========================DEBUT=======================================\\t{function}\")\n    x_cord , y_cord = [],[]\n    for bbox, text,score in result_gpt_EASYOCR_ONLY:",
+        "detail": "classes.reconnaissanceTexte",
+        "documentation": {}
+    },
+    {
+        "label": "traitementProfond2",
+        "kind": 2,
+        "importPath": "classes.reconnaissanceTexte",
+        "description": "classes.reconnaissanceTexte",
+        "peekOfCode": "def traitementProfond2(result_gpt_EASYOCR_ONLY, path, function):\n    x_cord, y_cord = [], []\n    # Extraction des coordonnées des bounding boxes détectées par EasyOCR\n    for bbox, text, score in result_gpt_EASYOCR_ONLY:\n        print(f'BBox : {bbox}, Texte détecté : {text}')\n        x_cord.extend(int(point[0]) for point in bbox)\n        y_cord.extend(int(point[1]) for point in bbox)\n    min_x, max_x = min(x_cord), max(x_cord)\n    min_y, max_y = min(y_cord), max(y_cord)\n    img = cv2.imread(f'/home/ahmed/Bureau/Projet/OpenCV/images/{path}')",
+        "detail": "classes.reconnaissanceTexte",
+        "documentation": {}
+    },
+    {
+        "label": "reader",
+        "kind": 5,
+        "importPath": "classes.reconnaissanceTexte",
+        "description": "classes.reconnaissanceTexte",
+        "peekOfCode": "reader = easyocr.Reader(['fr', 'en'])  # Initialiser EasyOCR une seule fois\nclass ReconnaissanceTexte:\n    reader = easyocr.Reader(['fr', 'en'])  # Initialiser EasyOCR une seule fois\n    def __init__(self,image,name=\"\",horaire=\"\",place=\"\",address=\"\",id=\"\"):\n        self.name= name\n        self.horaire = horaire\n        self.address = address\n        self.id = id\n        self.image =  cv2.imread(image)\n        if self.image is None:",
+        "detail": "classes.reconnaissanceTexte",
+        "documentation": {}
+    },
+    {
+        "label": "num",
+        "kind": 5,
+        "importPath": "classes.reconnaissanceTexte",
+        "description": "classes.reconnaissanceTexte",
+        "peekOfCode": "num =  0\ndef traitementProfond(result_gpt_EASYOCR_ONLY,path,function):\n    global num\n    num += 1\n    print(f'result_gpt_EASYOCR_ONLY : {result_gpt_EASYOCR_ONLY}')\n    if result_gpt_EASYOCR_ONLY == []:\n        print(\"Il n'y a pas de texte dans votre élément\")\n        return\n    print(f\"==========================DEBUT=======================================\\t{function}\")\n    x_cord , y_cord = [],[]",
+        "detail": "classes.reconnaissanceTexte",
+        "documentation": {}
+    },
+    {
+        "label": "image_path",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "image_path = \"/home/ahmed/Bureau/Projet/OpenCV/images/carrefour2.jpeg\"\nimage = cv2.imread(image_path)\n# Vérifier si l'image est chargée correctement\nif image is None:\n    raise FileNotFoundError(f\"L'image {image_path} n'a pas été trouvée.\")\n# Convertir en RGB (OpenCV charge en BGR)\nimage = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)\n# Améliorer la netteté avec PIL\npil_image = Image.fromarray(image)\nenhancer = ImageEnhance.Sharpness(pil_image)",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "image",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "image = cv2.imread(image_path)\n# Vérifier si l'image est chargée correctement\nif image is None:\n    raise FileNotFoundError(f\"L'image {image_path} n'a pas été trouvée.\")\n# Convertir en RGB (OpenCV charge en BGR)\nimage = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)\n# Améliorer la netteté avec PIL\npil_image = Image.fromarray(image)\nenhancer = ImageEnhance.Sharpness(pil_image)\nsharpened_image = enhancer.enhance(2.0)  # Augmenter la netteté",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "image",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)\n# Améliorer la netteté avec PIL\npil_image = Image.fromarray(image)\nenhancer = ImageEnhance.Sharpness(pil_image)\nsharpened_image = enhancer.enhance(2.0)  # Augmenter la netteté\n# Convertir en tableau NumPy pour OpenCV\nsharpened_image = np.array(sharpened_image)\n# Convertir en niveaux de gris pour la détection des bords\ngray = cv2.cvtColor(sharpened_image, cv2.COLOR_RGB2GRAY)\nblurred = cv2.GaussianBlur(gray, (21, 21), 0)",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "pil_image",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "pil_image = Image.fromarray(image)\nenhancer = ImageEnhance.Sharpness(pil_image)\nsharpened_image = enhancer.enhance(2.0)  # Augmenter la netteté\n# Convertir en tableau NumPy pour OpenCV\nsharpened_image = np.array(sharpened_image)\n# Convertir en niveaux de gris pour la détection des bords\ngray = cv2.cvtColor(sharpened_image, cv2.COLOR_RGB2GRAY)\nblurred = cv2.GaussianBlur(gray, (21, 21), 0)\nedges = cv2.Canny(blurred, 50, 150)\n# Créer un masque en dilatant les contours",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "enhancer",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "enhancer = ImageEnhance.Sharpness(pil_image)\nsharpened_image = enhancer.enhance(2.0)  # Augmenter la netteté\n# Convertir en tableau NumPy pour OpenCV\nsharpened_image = np.array(sharpened_image)\n# Convertir en niveaux de gris pour la détection des bords\ngray = cv2.cvtColor(sharpened_image, cv2.COLOR_RGB2GRAY)\nblurred = cv2.GaussianBlur(gray, (21, 21), 0)\nedges = cv2.Canny(blurred, 50, 150)\n# Créer un masque en dilatant les contours\nkernel = np.ones((5,5), np.uint8)",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "sharpened_image",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "sharpened_image = enhancer.enhance(2.0)  # Augmenter la netteté\n# Convertir en tableau NumPy pour OpenCV\nsharpened_image = np.array(sharpened_image)\n# Convertir en niveaux de gris pour la détection des bords\ngray = cv2.cvtColor(sharpened_image, cv2.COLOR_RGB2GRAY)\nblurred = cv2.GaussianBlur(gray, (21, 21), 0)\nedges = cv2.Canny(blurred, 50, 150)\n# Créer un masque en dilatant les contours\nkernel = np.ones((5,5), np.uint8)\nmask = cv2.dilate(edges, kernel, iterations=3)",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "sharpened_image",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "sharpened_image = np.array(sharpened_image)\n# Convertir en niveaux de gris pour la détection des bords\ngray = cv2.cvtColor(sharpened_image, cv2.COLOR_RGB2GRAY)\nblurred = cv2.GaussianBlur(gray, (21, 21), 0)\nedges = cv2.Canny(blurred, 50, 150)\n# Créer un masque en dilatant les contours\nkernel = np.ones((5,5), np.uint8)\nmask = cv2.dilate(edges, kernel, iterations=3)\nmask = cv2.GaussianBlur(mask, (21, 21), 0)\n# Inverser le masque pour flouter l’arrière-plan",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "gray",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "gray = cv2.cvtColor(sharpened_image, cv2.COLOR_RGB2GRAY)\nblurred = cv2.GaussianBlur(gray, (21, 21), 0)\nedges = cv2.Canny(blurred, 50, 150)\n# Créer un masque en dilatant les contours\nkernel = np.ones((5,5), np.uint8)\nmask = cv2.dilate(edges, kernel, iterations=3)\nmask = cv2.GaussianBlur(mask, (21, 21), 0)\n# Inverser le masque pour flouter l’arrière-plan\nmask_inv = cv2.bitwise_not(mask)\n# Appliquer un flou gaussien sur l'image entière",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "blurred",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "blurred = cv2.GaussianBlur(gray, (21, 21), 0)\nedges = cv2.Canny(blurred, 50, 150)\n# Créer un masque en dilatant les contours\nkernel = np.ones((5,5), np.uint8)\nmask = cv2.dilate(edges, kernel, iterations=3)\nmask = cv2.GaussianBlur(mask, (21, 21), 0)\n# Inverser le masque pour flouter l’arrière-plan\nmask_inv = cv2.bitwise_not(mask)\n# Appliquer un flou gaussien sur l'image entière\nblurred_image = cv2.GaussianBlur(sharpened_image, (21, 21), 30)",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "edges",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "edges = cv2.Canny(blurred, 50, 150)\n# Créer un masque en dilatant les contours\nkernel = np.ones((5,5), np.uint8)\nmask = cv2.dilate(edges, kernel, iterations=3)\nmask = cv2.GaussianBlur(mask, (21, 21), 0)\n# Inverser le masque pour flouter l’arrière-plan\nmask_inv = cv2.bitwise_not(mask)\n# Appliquer un flou gaussien sur l'image entière\nblurred_image = cv2.GaussianBlur(sharpened_image, (21, 21), 30)\n# Appliquer le masque correctement pour garder l'avant-plan net",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "kernel",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "kernel = np.ones((5,5), np.uint8)\nmask = cv2.dilate(edges, kernel, iterations=3)\nmask = cv2.GaussianBlur(mask, (21, 21), 0)\n# Inverser le masque pour flouter l’arrière-plan\nmask_inv = cv2.bitwise_not(mask)\n# Appliquer un flou gaussien sur l'image entière\nblurred_image = cv2.GaussianBlur(sharpened_image, (21, 21), 30)\n# Appliquer le masque correctement pour garder l'avant-plan net\nmask_inv = mask_inv / 255  # Normalisation entre 0 et 1\nmask_inv = np.expand_dims(mask_inv, axis=-1)  # Adapter la dimension pour le broadcasting",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "mask",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "mask = cv2.dilate(edges, kernel, iterations=3)\nmask = cv2.GaussianBlur(mask, (21, 21), 0)\n# Inverser le masque pour flouter l’arrière-plan\nmask_inv = cv2.bitwise_not(mask)\n# Appliquer un flou gaussien sur l'image entière\nblurred_image = cv2.GaussianBlur(sharpened_image, (21, 21), 30)\n# Appliquer le masque correctement pour garder l'avant-plan net\nmask_inv = mask_inv / 255  # Normalisation entre 0 et 1\nmask_inv = np.expand_dims(mask_inv, axis=-1)  # Adapter la dimension pour le broadcasting\nfinal_image = (sharpened_image * mask_inv + blurred_image * (1 - mask_inv)).astype(np.uint8)",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "mask",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "mask = cv2.GaussianBlur(mask, (21, 21), 0)\n# Inverser le masque pour flouter l’arrière-plan\nmask_inv = cv2.bitwise_not(mask)\n# Appliquer un flou gaussien sur l'image entière\nblurred_image = cv2.GaussianBlur(sharpened_image, (21, 21), 30)\n# Appliquer le masque correctement pour garder l'avant-plan net\nmask_inv = mask_inv / 255  # Normalisation entre 0 et 1\nmask_inv = np.expand_dims(mask_inv, axis=-1)  # Adapter la dimension pour le broadcasting\nfinal_image = (sharpened_image * mask_inv + blurred_image * (1 - mask_inv)).astype(np.uint8)\n# Convertir en Image PIL et enregistrer",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "mask_inv",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "mask_inv = cv2.bitwise_not(mask)\n# Appliquer un flou gaussien sur l'image entière\nblurred_image = cv2.GaussianBlur(sharpened_image, (21, 21), 30)\n# Appliquer le masque correctement pour garder l'avant-plan net\nmask_inv = mask_inv / 255  # Normalisation entre 0 et 1\nmask_inv = np.expand_dims(mask_inv, axis=-1)  # Adapter la dimension pour le broadcasting\nfinal_image = (sharpened_image * mask_inv + blurred_image * (1 - mask_inv)).astype(np.uint8)\n# Convertir en Image PIL et enregistrer\nfinal_pil = Image.fromarray(final_image)\noutput_path = \"carrefour2_processed.jpeg\"",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "blurred_image",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "blurred_image = cv2.GaussianBlur(sharpened_image, (21, 21), 30)\n# Appliquer le masque correctement pour garder l'avant-plan net\nmask_inv = mask_inv / 255  # Normalisation entre 0 et 1\nmask_inv = np.expand_dims(mask_inv, axis=-1)  # Adapter la dimension pour le broadcasting\nfinal_image = (sharpened_image * mask_inv + blurred_image * (1 - mask_inv)).astype(np.uint8)\n# Convertir en Image PIL et enregistrer\nfinal_pil = Image.fromarray(final_image)\noutput_path = \"carrefour2_processed.jpeg\"\nfinal_pil.save(output_path)\n# Convertir l'image PIL en NumPy pour affichage OpenCV",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "mask_inv",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "mask_inv = mask_inv / 255  # Normalisation entre 0 et 1\nmask_inv = np.expand_dims(mask_inv, axis=-1)  # Adapter la dimension pour le broadcasting\nfinal_image = (sharpened_image * mask_inv + blurred_image * (1 - mask_inv)).astype(np.uint8)\n# Convertir en Image PIL et enregistrer\nfinal_pil = Image.fromarray(final_image)\noutput_path = \"carrefour2_processed.jpeg\"\nfinal_pil.save(output_path)\n# Convertir l'image PIL en NumPy pour affichage OpenCV\nfinal_cv = np.array(final_pil)\n# final_cv = cv2.cvtColor(final_cv, cv2.COLOR_RGB2BGR)  # Repasser en BGR pour OpenCV",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "mask_inv",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "mask_inv = np.expand_dims(mask_inv, axis=-1)  # Adapter la dimension pour le broadcasting\nfinal_image = (sharpened_image * mask_inv + blurred_image * (1 - mask_inv)).astype(np.uint8)\n# Convertir en Image PIL et enregistrer\nfinal_pil = Image.fromarray(final_image)\noutput_path = \"carrefour2_processed.jpeg\"\nfinal_pil.save(output_path)\n# Convertir l'image PIL en NumPy pour affichage OpenCV\nfinal_cv = np.array(final_pil)\n# final_cv = cv2.cvtColor(final_cv, cv2.COLOR_RGB2BGR)  # Repasser en BGR pour OpenCV\n# Affichage avec OpenCV",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "final_image",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "final_image = (sharpened_image * mask_inv + blurred_image * (1 - mask_inv)).astype(np.uint8)\n# Convertir en Image PIL et enregistrer\nfinal_pil = Image.fromarray(final_image)\noutput_path = \"carrefour2_processed.jpeg\"\nfinal_pil.save(output_path)\n# Convertir l'image PIL en NumPy pour affichage OpenCV\nfinal_cv = np.array(final_pil)\n# final_cv = cv2.cvtColor(final_cv, cv2.COLOR_RGB2BGR)  # Repasser en BGR pour OpenCV\n# Affichage avec OpenCV\n# cv2.imshow(\"Image Traitée\", final_cv)",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "final_pil",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "final_pil = Image.fromarray(final_image)\noutput_path = \"carrefour2_processed.jpeg\"\nfinal_pil.save(output_path)\n# Convertir l'image PIL en NumPy pour affichage OpenCV\nfinal_cv = np.array(final_pil)\n# final_cv = cv2.cvtColor(final_cv, cv2.COLOR_RGB2BGR)  # Repasser en BGR pour OpenCV\n# Affichage avec OpenCV\n# cv2.imshow(\"Image Traitée\", final_cv)\n# cv2.waitKey(0)\n# cv2.destroyAllWindows()",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "output_path",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "output_path = \"carrefour2_processed.jpeg\"\nfinal_pil.save(output_path)\n# Convertir l'image PIL en NumPy pour affichage OpenCV\nfinal_cv = np.array(final_pil)\n# final_cv = cv2.cvtColor(final_cv, cv2.COLOR_RGB2BGR)  # Repasser en BGR pour OpenCV\n# Affichage avec OpenCV\n# cv2.imshow(\"Image Traitée\", final_cv)\n# cv2.waitKey(0)\n# cv2.destroyAllWindows()\nprint(f\"Image traitée et enregistrée : {output_path}\")",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "final_cv",
+        "kind": 5,
+        "importPath": "draft.draft",
+        "description": "draft.draft",
+        "peekOfCode": "final_cv = np.array(final_pil)\n# final_cv = cv2.cvtColor(final_cv, cv2.COLOR_RGB2BGR)  # Repasser en BGR pour OpenCV\n# Affichage avec OpenCV\n# cv2.imshow(\"Image Traitée\", final_cv)\n# cv2.waitKey(0)\n# cv2.destroyAllWindows()\nprint(f\"Image traitée et enregistrée : {output_path}\")",
+        "detail": "draft.draft",
+        "documentation": {}
+    },
+    {
+        "label": "champDeTexte",
+        "kind": 2,
+        "importPath": "draft.main",
+        "description": "draft.main",
+        "peekOfCode": "def champDeTexte(img_path):\n    \"\"\"\n    Identifie les zones contenant du texte dans une image en utilisant EasyOCR.\n    Args:\n        img_path (str): Chemin vers l'image à analyser.\n    Returns:\n        np.array: Tableau 2D contenant les coordonnées des zones de texte détectées.\n                  - Ligne 0 : Coordonnées X des sommets des rectangles.\n                  - Ligne 1 : Coordonnées Y des sommets des rectangles.\n    Exemple :",
+        "detail": "draft.main",
+        "documentation": {}
+    },
+    {
+        "label": "perimetre",
+        "kind": 2,
+        "importPath": "draft.main",
+        "description": "draft.main",
+        "peekOfCode": "def perimetre(rectangles):\n    \"\"\"\n    Délimite les champs de texte détectés dans l'image.\n    Args:\n        rectangles (list): Liste de rectangles représentés par 4 points (x, y).\n    Returns:\n        list: Liste des périmètres définis par les coordonnées min/max en X et Y.\n    \"\"\"\n    perimetres = []\n    for rect in rectangles:",
+        "detail": "draft.main",
+        "documentation": {}
+    },
+    {
+        "label": "treatImage",
+        "kind": 2,
+        "importPath": "draft.main",
+        "description": "draft.main",
+        "peekOfCode": "def treatImage(coordonnees_points):\n    \"\"\"\n    Traite les coordonnées des sommets pour extraire les rectangles contenant du texte.\n    Args:\n        coordonnees_points (np.array): Tableau 2D contenant les coordonnées des points détectés.\n    Returns:\n        list: Liste des périmètres, chaque périmètre étant défini par deux paires de coordonnées.\n    Exemple :\n        >>> coordonnees = np.array([\n        ...     [380, 712, 714, 382, 458, 718, 722, 462],",
+        "detail": "draft.main",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "kind": 5,
+        "importPath": "draft.main",
+        "description": "draft.main",
+        "peekOfCode": "path = \"/home/ahmed/Bureau/Projet/OpenCV/images/auchan.webp\"\norig = cv2.imread(path)\nif orig is None:\n    print(f\"⚠️ Erreur : Impossible de charger l'image '{path}'. Vérifiez le chemin.\")\n    exit()\n# Détection des zones de texte\ncoordonnees_points = champDeTexte(path)\nretraitement = treatImage(coordonnees_points)\nprint(f\"Coordonnées des rectangles détectés : {retraitement}\")\nreader = easyocr.Reader(['fr', 'en'])",
+        "detail": "draft.main",
+        "documentation": {}
+    },
+    {
+        "label": "orig",
+        "kind": 5,
+        "importPath": "draft.main",
+        "description": "draft.main",
+        "peekOfCode": "orig = cv2.imread(path)\nif orig is None:\n    print(f\"⚠️ Erreur : Impossible de charger l'image '{path}'. Vérifiez le chemin.\")\n    exit()\n# Détection des zones de texte\ncoordonnees_points = champDeTexte(path)\nretraitement = treatImage(coordonnees_points)\nprint(f\"Coordonnées des rectangles détectés : {retraitement}\")\nreader = easyocr.Reader(['fr', 'en'])\n## Function de retraitement de l'image",
+        "detail": "draft.main",
+        "documentation": {}
+    },
+    {
+        "label": "coordonnees_points",
+        "kind": 5,
+        "importPath": "draft.main",
+        "description": "draft.main",
+        "peekOfCode": "coordonnees_points = champDeTexte(path)\nretraitement = treatImage(coordonnees_points)\nprint(f\"Coordonnées des rectangles détectés : {retraitement}\")\nreader = easyocr.Reader(['fr', 'en'])\n## Function de retraitement de l'image\nfor index, ((minX, maxX), (minY, maxY)) in enumerate(retraitement):\n    # Vérification des coordonnées\n    if minX >= maxX or minY >= maxY:\n        print(f\"⚠️ Erreur : Rectangle invalide ({minX}, {maxX}), ({minY}, {maxY})\")\n        continue",
+        "detail": "draft.main",
+        "documentation": {}
+    },
+    {
+        "label": "retraitement",
+        "kind": 5,
+        "importPath": "draft.main",
+        "description": "draft.main",
+        "peekOfCode": "retraitement = treatImage(coordonnees_points)\nprint(f\"Coordonnées des rectangles détectés : {retraitement}\")\nreader = easyocr.Reader(['fr', 'en'])\n## Function de retraitement de l'image\nfor index, ((minX, maxX), (minY, maxY)) in enumerate(retraitement):\n    # Vérification des coordonnées\n    if minX >= maxX or minY >= maxY:\n        print(f\"⚠️ Erreur : Rectangle invalide ({minX}, {maxX}), ({minY}, {maxY})\")\n        continue\n    # Extraire la région de texte",
+        "detail": "draft.main",
+        "documentation": {}
+    },
+    {
+        "label": "reader",
+        "kind": 5,
+        "importPath": "draft.main",
+        "description": "draft.main",
+        "peekOfCode": "reader = easyocr.Reader(['fr', 'en'])\n## Function de retraitement de l'image\nfor index, ((minX, maxX), (minY, maxY)) in enumerate(retraitement):\n    # Vérification des coordonnées\n    if minX >= maxX or minY >= maxY:\n        print(f\"⚠️ Erreur : Rectangle invalide ({minX}, {maxX}), ({minY}, {maxY})\")\n        continue\n    # Extraire la région de texte\n    text_roi = orig[minY:maxY, minX:maxX]\n    if text_roi.size == 0:",
+        "detail": "draft.main",
+        "documentation": {}
+    },
+    {
+        "label": "champDeTexte",
+        "kind": 2,
+        "importPath": "draft.personnelle",
+        "description": "draft.personnelle",
+        "peekOfCode": "def champDeTexte(img_path):\n    \"\"\"\n    Identifie les zones contenant du texte dans une image en utilisant EasyOCR.\n    Args:\n        img_path (str): Chemin vers l'image à analyser.\n    Returns:\n        np.array: Tableau 2D contenant les coordonnées des zones de texte détectées.\n                  - Ligne 0 : Coordonnées X des sommets des rectangles.\n                  - Ligne 1 : Coordonnées Y des sommets des rectangles.\n    Exemple :",
+        "detail": "draft.personnelle",
+        "documentation": {}
+    },
+    {
+        "label": "treatImage",
+        "kind": 2,
+        "importPath": "draft.personnelle",
+        "description": "draft.personnelle",
+        "peekOfCode": "def treatImage(coordonnees_points):\n    \"\"\"\n    Traite les coordonnées des sommets pour extraire les rectangles contenant du texte.\n    Args:\n        coordonnees_points (np.array): Tableau 2D contenant les coordonnées des points détectés.\n    Returns:\n        list: Liste des périmètres, chaque périmètre étant défini par deux paires de coordonnées.\n    Exemple :\n        >>> coordonnees = np.array([\n        ...     [380, 712, 714, 382, 458, 718, 722, 462],",
+        "detail": "draft.personnelle",
+        "documentation": {}
+    },
+    {
+        "label": "perimetre",
+        "kind": 2,
+        "importPath": "draft.personnelle",
+        "description": "draft.personnelle",
+        "peekOfCode": "def perimetre(rectangles):\n    \"\"\"\n    Délimite les champs de texte détectés dans l'image.\n    Args:\n        rectangles (list): Liste de rectangles représentés par 4 points (x, y).\n    Returns:\n        list: Liste des périmètres définis par les coordonnées min/max en X et Y.\n    \"\"\"\n    perimetres = []\n    for rect in rectangles:",
+        "detail": "draft.personnelle",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "draft.personnelle",
+        "description": "draft.personnelle",
+        "peekOfCode": "def main(pathImg):\n    #Image dont il faut extrait le(s) texte(s)\n    coordonnees_points  = champDeTexte(pathImg)\n    print(treatImage(coordonnees_points))\n\"\"\"\nFonction principale pour détecter et extraire le texte d'une image.\n\"\"\"\n# Charger l'image originale\npath = \"/home/ahmed/Bureau/Projet/OpenCV/images/auchan.webp\"\n# path = \"/home/ahmed/Bureau/Projet/OpenCV/images/carrefour2.jpeg\"",
+        "detail": "draft.personnelle",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "kind": 5,
+        "importPath": "draft.personnelle",
+        "description": "draft.personnelle",
+        "peekOfCode": "path = \"/home/ahmed/Bureau/Projet/OpenCV/images/auchan.webp\"\n# path = \"/home/ahmed/Bureau/Projet/OpenCV/images/carrefour2.jpeg\"\norig = cv2.imread(path)\nif orig is None:\n    print(f\"⚠️ Erreur : Impossible de charger l'image '{path}'. Vérifiez le chemin.\")\n # Détection des coordonnées des zones de texte\ncoordonnees_points = champDeTexte(path)\nretraitement = treatImage(coordonnees_points)\nreader = easyocr.Reader(['fr', 'en'])  # Initialiser EasyOCR une seule fois\ncontent = \"\"",
+        "detail": "draft.personnelle",
+        "documentation": {}
+    },
+    {
+        "label": "orig",
+        "kind": 5,
+        "importPath": "draft.personnelle",
+        "description": "draft.personnelle",
+        "peekOfCode": "orig = cv2.imread(path)\nif orig is None:\n    print(f\"⚠️ Erreur : Impossible de charger l'image '{path}'. Vérifiez le chemin.\")\n # Détection des coordonnées des zones de texte\ncoordonnees_points = champDeTexte(path)\nretraitement = treatImage(coordonnees_points)\nreader = easyocr.Reader(['fr', 'en'])  # Initialiser EasyOCR une seule fois\ncontent = \"\"\nfor i, img in enumerate(retraitement):\n    x_min, x_max = img[0]",
+        "detail": "draft.personnelle",
+        "documentation": {}
+    },
+    {
+        "label": "coordonnees_points",
+        "kind": 5,
+        "importPath": "draft.personnelle",
+        "description": "draft.personnelle",
+        "peekOfCode": "coordonnees_points = champDeTexte(path)\nretraitement = treatImage(coordonnees_points)\nreader = easyocr.Reader(['fr', 'en'])  # Initialiser EasyOCR une seule fois\ncontent = \"\"\nfor i, img in enumerate(retraitement):\n    x_min, x_max = img[0]\n    y_min, y_max = img[1]\n    # Vérification des limites de l'image\n    if x_max > orig.shape[1] or y_max > orig.shape[0]:\n        print(f\"⚠️ Erreur : Les coordonnées dépassent les dimensions de l'image ({orig.shape[1]}, {orig.shape[0]}).\")",
+        "detail": "draft.personnelle",
+        "documentation": {}
+    },
+    {
+        "label": "retraitement",
+        "kind": 5,
+        "importPath": "draft.personnelle",
+        "description": "draft.personnelle",
+        "peekOfCode": "retraitement = treatImage(coordonnees_points)\nreader = easyocr.Reader(['fr', 'en'])  # Initialiser EasyOCR une seule fois\ncontent = \"\"\nfor i, img in enumerate(retraitement):\n    x_min, x_max = img[0]\n    y_min, y_max = img[1]\n    # Vérification des limites de l'image\n    if x_max > orig.shape[1] or y_max > orig.shape[0]:\n        print(f\"⚠️ Erreur : Les coordonnées dépassent les dimensions de l'image ({orig.shape[1]}, {orig.shape[0]}).\")\n        continue",
+        "detail": "draft.personnelle",
+        "documentation": {}
+    },
+    {
+        "label": "reader",
+        "kind": 5,
+        "importPath": "draft.personnelle",
+        "description": "draft.personnelle",
+        "peekOfCode": "reader = easyocr.Reader(['fr', 'en'])  # Initialiser EasyOCR une seule fois\ncontent = \"\"\nfor i, img in enumerate(retraitement):\n    x_min, x_max = img[0]\n    y_min, y_max = img[1]\n    # Vérification des limites de l'image\n    if x_max > orig.shape[1] or y_max > orig.shape[0]:\n        print(f\"⚠️ Erreur : Les coordonnées dépassent les dimensions de l'image ({orig.shape[1]}, {orig.shape[0]}).\")\n        continue\n    text_roi = orig[y_min:y_max, x_min:x_max]",
+        "detail": "draft.personnelle",
+        "documentation": {}
+    },
+    {
+        "label": "content",
+        "kind": 5,
+        "importPath": "draft.personnelle",
+        "description": "draft.personnelle",
+        "peekOfCode": "content = \"\"\nfor i, img in enumerate(retraitement):\n    x_min, x_max = img[0]\n    y_min, y_max = img[1]\n    # Vérification des limites de l'image\n    if x_max > orig.shape[1] or y_max > orig.shape[0]:\n        print(f\"⚠️ Erreur : Les coordonnées dépassent les dimensions de l'image ({orig.shape[1]}, {orig.shape[0]}).\")\n        continue\n    text_roi = orig[y_min:y_max, x_min:x_max]\n    # Vérification si la région extraite est vide",
+        "detail": "draft.personnelle",
+        "documentation": {}
+    },
+    {
+        "label": "reader",
+        "kind": 5,
+        "importPath": "draft.personnelle",
+        "description": "draft.personnelle",
+        "peekOfCode": "reader = easyocr.Reader(['fr', 'en'])\n## Function de retraitement de l'image\nfor index, ((minX, maxX), (minY, maxY)) in enumerate(retraitement):\n    # Vérification des coordonnées\n    if minX >= maxX or minY >= maxY:\n        print(f\"⚠️ Erreur : Rectangle invalide ({minX}, {maxX}), ({minY}, {maxY})\")\n        continue\n    # Extraire la région de texte\n    text_roi = orig[minY:maxY, minX:maxX]\n    if text_roi.size == 0:",
+        "detail": "draft.personnelle",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "kind": 5,
+        "importPath": "main.main",
+        "description": "main.main",
+        "peekOfCode": "path = \"auchan.webp\"\n# path1 = \"carrefour.png\"\npath2 = \"carrefour.jpeg\"\npath3 = \"carrefour.webp\"\n# gestion = ReconnaissanceTexte(path) # Pas performant\n# gestion.reconnaissanceCaractère()\n# gestion.functionStand()\nprint(\"\\n POUR - AUCHANn\\n==========================================================\\n\")\n# traitementProfond(EASYOCR_ONLY(path),path,\"EASYOCR_ONLY\")\ntraitementProfond(GPT(path),path,\"GPT\")",
+        "detail": "main.main",
+        "documentation": {}
+    },
+    {
+        "label": "path2",
+        "kind": 5,
+        "importPath": "main.main",
+        "description": "main.main",
+        "peekOfCode": "path2 = \"carrefour.jpeg\"\npath3 = \"carrefour.webp\"\n# gestion = ReconnaissanceTexte(path) # Pas performant\n# gestion.reconnaissanceCaractère()\n# gestion.functionStand()\nprint(\"\\n POUR - AUCHANn\\n==========================================================\\n\")\n# traitementProfond(EASYOCR_ONLY(path),path,\"EASYOCR_ONLY\")\ntraitementProfond(GPT(path),path,\"GPT\")\n# print(\"\\n\\n\\n Carrefour\")\n# traitementProfond(EASYOCR_ONLY(path1),path1,\"EASYOCR_ONLY\")",
+        "detail": "main.main",
+        "documentation": {}
+    },
+    {
+        "label": "path3",
+        "kind": 5,
+        "importPath": "main.main",
+        "description": "main.main",
+        "peekOfCode": "path3 = \"carrefour.webp\"\n# gestion = ReconnaissanceTexte(path) # Pas performant\n# gestion.reconnaissanceCaractère()\n# gestion.functionStand()\nprint(\"\\n POUR - AUCHANn\\n==========================================================\\n\")\n# traitementProfond(EASYOCR_ONLY(path),path,\"EASYOCR_ONLY\")\ntraitementProfond(GPT(path),path,\"GPT\")\n# print(\"\\n\\n\\n Carrefour\")\n# traitementProfond(EASYOCR_ONLY(path1),path1,\"EASYOCR_ONLY\")\n# traitementProfond(GPT(path1),path1,\"GPT\")",
+        "detail": "main.main",
+        "documentation": {}
+    }
+]
