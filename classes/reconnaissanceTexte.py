@@ -3,6 +3,7 @@ import cv2
 import easyocr
 import numpy as np
 import os
+# from draft.draft import kernel
 # from draft.main import reader
 reader = easyocr.Reader(['fr', 'en'])  # Initialiser EasyOCR une seule fois
 class ReconnaissanceTexte:
@@ -126,34 +127,6 @@ class ReconnaissanceTexte:
         return thresh
 
 
-
-
-
-
-
-
-
-# def EASYOCR_ONLY(path):
-
-#     # Read the image
-#     img_open = cv2.imread(f'/home/ahmed/Bureau/Projet/OpenCV/images/{path}')  
-#     if img_open is None:
-#         print("Error: Image not found or unable to load.")
-#         return
-
-#     # Convert to grayscale (to ensure it's CV_8UC1)
-#     gray = cv2.GaussianBlur(cv2.cvtColor(img_open, cv2.COLOR_BGR2GRAY),(5,5),0)
-
-#     # Apply threshold to convert it to binary (black & white)
-#     thresh = cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,13,4)
-#     # cv2.imwrite("EASYOCR_ONLY.png",thresh)
-#     reader = easyocr.Reader(['fr', 'en'])
-#     result = reader.readtext(thresh)
-#     print(f'OCR Results for {path}: {result}')
-#     return result
-
-
-
 def GPT(path):
     # Read the image
     img_open = cv2.imread(f'/home/ahmed/Bureau/Projet/OpenCV/images/{path}')  
@@ -166,6 +139,7 @@ def GPT(path):
 
     # Apply threshold to binarize the image
     _, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+
     # cv2.imwrite("GPT.png",thresh)
 
     # Run OCR on the image
@@ -176,42 +150,47 @@ def GPT(path):
     return result
 
 num =  0
+# Mieux 
 def traitementProfond(result_gpt_EASYOCR_ONLY,path,function):
     global num
     num += 1
-    print(f'result_gpt_EASYOCR_ONLY : {result_gpt_EASYOCR_ONLY}')
+    # print(f'result_gpt_EASYOCR_ONLY : {result_gpt_EASYOCR_ONLY}')
     if result_gpt_EASYOCR_ONLY == []:
         print("Il n'y a pas de texte dans votre élément")
         return
     print(f"==========================DEBUT=======================================\t{function}")
     x_cord , y_cord = [],[]
-    for bbox, text,score in result_gpt_EASYOCR_ONLY:
-        print(f'Texte initial : {text} | Score initial : {score}')
-        # Extraction des coordonnées (conversion explicite en int si nécessaire)
-        x_cord.extend(int(point[0]) for point in bbox)
-        y_cord.extend(int(point[1]) for point in bbox)
-    
-    min_x,max_x = min(x_cord),max(x_cord)
-    
-    min_y,max_y = min(y_cord),max(y_cord)
+    # print(f"result_gpt_EASYOCR_ONLY ======== {result_gpt_EASYOCR_ONLY}")
+
+    for i,(bbox, text, score) in enumerate(result_gpt_EASYOCR_ONLY):
+        # Extraction des coordonnées du rectangle englobant
+        min_x, min_y = int(bbox[0][0]), int(bbox[0][1])
+        max_x, max_y = int(bbox[2][0]), int(bbox[2][1])
+
+        # Ajout des coordonnées dans les variables pour obtenir la zone à découper
+        x_cord.extend([min_x, max_x])
+        y_cord.extend([min_y, max_y])
+        print(f'text initial : {text} | score : {score}')
+
+    # Calcul des coordonnées minimales et maximales de la zone à découper
+    min_x, max_x = min(x_cord), max(x_cord)
+    min_y, max_y = min(y_cord), max(y_cord)
+
 
     img = cv2.imread(f'/home/ahmed/Bureau/Projet/OpenCV/images/{path}')
     zone_de_test = cv2.cvtColor(img[min_y:max_y,min_x:max_x],cv2.COLOR_BGR2GRAY)
-    ## AJOUT NOUVEL ##
-    # zone_de_test = cv2.adaptiveThreshold(cv2.GaussianBlur(zone_de_test,(7,7),0),255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY_INV,11,5)
-    # _,zone_de_test = cv2.threshold(zone_de_test, 127, 255, cv2.THRESH_BINARY)
-    ## AJOUT NOUVEL ##
+
     # Définition du chemin de sauvegarde
-    save_dir = f"/home/ahmed/Bureau/Projet/OpenCV/search/{function}/"
+    save_dir = f"/home/ahmed/Bureau/Projet/OpenCV/search/"
     os.makedirs(save_dir, exist_ok=True)
-    save_path = os.path.join(save_dir, f"{path}_zone_de_test{function}{num}.png")
+    save_path = os.path.join(save_dir, f"{path}_zone_de_test_{function}_{num}.png")
 
     # Sauvegarde de l'image extraite
     cv2.imwrite(save_path, zone_de_test)
 
     print("Image Sauvegarder à lire")
     results = reader.readtext(save_path)
-    
+    print(f'Source traitée : {save_path}')
     for bbox,text,score in results:
         print(f'text trouvé = {text} | score  = {score}')
 
@@ -222,91 +201,85 @@ def traitementProfond(result_gpt_EASYOCR_ONLY,path,function):
     for contour in contours:
         x,y,w,h = cv2.boundingRect(contour)
         M = cv2.moments(contour)
-        if M["m00"] == 0:
-            continue
         c_x = int( M["m10"] / M["m00"] )
         c_y = int( M["m01"] / M["m00"])
+        # print(f'x : {x} | y : {y} | w : {w} | h : {h} |  M["m10"] = {M["m10"]} |  M["m00"] : {M["m00"]} | M["m01"] = {M["m01"]}" | c_x : {c_x} | c_y = {c_y}')
+    ##
+    # = cv2.imread(path)
+    # print(f'x_cords : {x_cord}, \n y_cord : {y_cord}')
+
+# Mieux que GPT
+def GPT1(path):
+    global num
+    num +=  1
+    # Read the image
+    img_open = cv2.imread(f'/home/ahmed/Bureau/Projet/OpenCV/images/{path}')  
+    if img_open is None:
+        print("Error: Image not found or unable to load.")
+        return
+
+    # Convert to grayscale
+    gray = cv2.cvtColor(img_open, cv2.COLOR_BGR2GRAY)
+
+    # Apply threshold to binarize the image
+    _, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+    # Utiliser des opérations morphologiques pour améliorer les contours
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+    dilated = cv2.dilate(thresh, kernel, iterations=1)  # Dilatation pour renforcer les contours
+    ret = cv2.imwrite(f"{path}_{num}.png",dilated)
+    if ret:
+        print("Image sauvegarder")
+
+    # cv2.imwrite("GPT.png",thresh)
+
+    # Run OCR on the image
+    reader = easyocr.Reader(['fr', 'en'])
+    result = reader.readtext(dilated)
+
+    # print(f'OCR Results for {path}: {result}')
+    return result
 
 
+def traitementProfond1(result_gpt_EASYOCR_ONLY,path,function):
+    global num
+    num += 1
+    # print(f'result_gpt_EASYOCR_ONLY : {result_gpt_EASYOCR_ONLY}')
+    if result_gpt_EASYOCR_ONLY == []:
+        print("Il n'y a pas de texte dans votre élément")
+        return
+    print(f"==========================DEBUT=======================================\t{function}")
+    x_cord , y_cord = [],[]
+    # print(f"result_gpt_EASYOCR_ONLY ======== {result_gpt_EASYOCR_ONLY}")
 
-def traitementProfond2(result_gpt_EASYOCR_ONLY, path, function):
-    x_cord, y_cord = [], []
-
-    # Extraction des coordonnées des bounding boxes détectées par EasyOCR
     for bbox, text, score in result_gpt_EASYOCR_ONLY:
-        print(f'BBox : {bbox}, Texte détecté : {text}')
-        x_cord.extend(int(point[0]) for point in bbox)
-        y_cord.extend(int(point[1]) for point in bbox)
+        # Extraction des coordonnées du rectangle englobant
+        min_x, min_y = int(bbox[0][0]), int(bbox[0][1])
+        max_x, max_y = int(bbox[2][0]), int(bbox[2][1])
 
+        # Ajout des coordonnées dans les variables pour obtenir la zone à découper
+        x_cord.extend([min_x, max_x])
+        y_cord.extend([min_y, max_y])
+        print(f'text initial : {text} | score : {score}')
+
+    # Calcul des coordonnées minimales et maximales de la zone à découper
     min_x, max_x = min(x_cord), max(x_cord)
     min_y, max_y = min(y_cord), max(y_cord)
 
-    img = cv2.imread(f'/home/ahmed/Bureau/Projet/OpenCV/images/{path}')
-    zone_de_test = img[min_y:max_y, min_x:max_x]
-    gray = cv2.cvtColor(zone_de_test, cv2.COLOR_BGR2GRAY)
 
-    # Appliquer un seuillage pour binariser l'image
-    _, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY_INV)
+    img = cv2.imread(f'/home/ahmed/Bureau/Projet/OpenCV/images/{path}')
+    zone_de_test = cv2.adaptiveThreshold(cv2.cvtColor(img[min_y:max_y,min_x:max_x],cv2.COLOR_BGR2GRAY),255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY_INV,23,5)
 
     # Définition du chemin de sauvegarde
-    save_dir = "/home/ahmed/Bureau/Projet/OpenCV/search"
+    save_dir = f"/home/ahmed/Bureau/Projet/OpenCV/search/"
     os.makedirs(save_dir, exist_ok=True)
-    # save_path = os.path.join(save_dir, f"{path}_zone_de_test_{function}.png")
+    save_path = os.path.join(save_dir, f"{path}_zone_de_test_{function}_{num}.png")
 
-    # # Sauvegarde de l'image extraite
-    # cv2.imwrite(save_path, thresh)
+    # Sauvegarde de l'image extraite
+    cv2.imwrite(save_path, zone_de_test)
 
-    ## Détection des contours pour extraire les caractères un par un
-    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    print("Image Sauvegarder à lire")
+    results = reader.readtext(save_path)
+    print(f'Source traitée : {save_path}')
+    for bbox,text,score in results:
+        print(f'text trouvé = {text} | score  = {score}')
 
-    # Liste pour stocker les caractères avec leurs positions
-    char_data = []
-
-    print("\n=== Caractères détectés ===")
-
-    for i, contour in enumerate(contours):
-        x, y, w, h = cv2.boundingRect(contour)
-
-        # Filtrer les petits bruits
-        if w < 5 or h < 5:
-            continue
-
-        # Calculer le centre de masse (c_x, c_y)
-        M = cv2.moments(contour)
-        if M["m00"] != 0:  # Éviter la division par zéro
-            c_x = int(M["m10"] / M["m00"])
-            c_y = int(M["m01"] / M["m00"])
-        else:
-            c_x, c_y = x + w // 2, y + h // 2  # Approximation si M["m00"] = 0
-
-        # Ajouter les infos du caractère à la liste
-        char_data.append((x, y, c_x, c_y, w, h, contour))
-
-    # Trier les caractères par leur position en X (de gauche à droite)
-    char_data.sort(key=lambda char: char[2])
-
-    # OCR sur chaque caractère
-    reader = easyocr.Reader(['fr', 'en'])
-
-    for i, (x, y, c_x, c_y, w, h, contour) in enumerate(char_data):
-        # Extraire le caractère
-        char_roi = gray[y:y+h, x:x+w]
-
-        # Sauvegarder l’image du caractère
-        char_save_path = os.path.join(save_dir, f"{path}_char_{i}.png")
-        cv2.imwrite(char_save_path, char_roi)
-
-        # Appliquer OCR sur chaque caractère
-        result_text = reader.readtext(char_roi, detail=0)  # detail=0 pour récupérer uniquement le texte
-
-        # Afficher le texte détecté avec ses coordonnées
-        print(f"Caractère {i} : {result_text} | Centre : ({c_x}, {c_y})")
-
-        # Dessiner le contour et le centre du caractère sur l'image d'origine
-        cv2.rectangle(zone_de_test, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        cv2.circle(zone_de_test, (c_x, c_y), 3, (255, 0, 0), -1)  # Point bleu pour centre
-
-    # Sauvegarde de l'image annotée avec les caractères
-    cv2.imwrite(os.path.join(save_dir, f"{path}_zone_de_test_annotated.png"), zone_de_test)
-
-    print("=== Fin de l'extraction des caractères ===")
