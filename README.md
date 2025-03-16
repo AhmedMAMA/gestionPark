@@ -7,8 +7,8 @@
 ## Problèmatique
 * Il me faut revoir la façon de sauvetager mes traces d'observations dans le dossier vues.
 * Il me faut aussi optimiser mon programme dans les fichiers : **``/home/ahmed/Bureau/Projet/OpenCV/main/main.py & /home/ahmed/Bureau/Projet/OpenCV/classes/reconnaissanceTexte.py``** dont l'observation se fait dans : **``/home/ahmed/Bureau/Projet/OpenCV/search``**
-* [:(] Revoir la fonction de collecte des information sur l'entreprise pour mieux faire le tri dans **``when_open(company)``** dans le dossier **/home/ahmed/Bureau/Projet/OpenCV/classes/StructureCLasses.py**
-* [:(] Revoir La fonction ``ParkingField()`` pour mieux repéerer les places totales sur une images i.e parking
+* [X] Revoir la fonction de collecte des information sur l'entreprise pour mieux faire le tri dans **``when_open(company)``** dans le dossier **/home/ahmed/Bureau/Projet/OpenCV/classes/StructureCLasses.py**
+* [X] Revoir La fonction ``ParkingField()`` pour mieux repéerer les places totales sur une images i.e parking
 
 
 ### NOTE de place
