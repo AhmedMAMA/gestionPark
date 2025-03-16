@@ -4,3 +4,4 @@ search/o/
 .vscode/
 draft/
 classes/__pycache__/
+note.py
