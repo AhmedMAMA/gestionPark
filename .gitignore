@@ -4,5 +4,10 @@ search/GPT/
 search/o/
 .vscode/
 draft/
+<<<<<<< HEAD
 classes/__pycache__/
 note.py
+=======
+vue/
+classes/__pycache__/
+>>>>>>> 036655b926243415337a0a26466991ea75c0e14a
