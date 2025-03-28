@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+    <div class="card shadow p-4 mt-4">
+        {{ form_start(registrationForm, {'method': 'POST'}) }}
+            {# Affichage des erreurs générales de formulaire #}
+            <div class="m-4">
+                {% if form_errors(registrationForm) %}
+                    <div class="alert alert-danger">
+                        {{ form_errors(registrationForm) }}
+                    </div>
+                {% endif %}
+            </div>
+            <h1 class="h2 mt-0 font-weight-normal">Register</h1>
+            
+
+            {# Champ email #}
+            <div class="form-group">
+                <label for="inputEmail" class="form-label mt-4">Email</label>
+                {{ form_widget(registrationForm.email, {'attr': {'id': 'inputEmail', 'class': 'form-control mb-3', 'autocomplete': 'email', 'required': 'true', 'autofocus': 'true'}}) }}
+                {% if form_errors(registrationForm.email) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+                {% endif %}
+            </div>
+
+            {# Champ fullname #}
+            <div class="form-group">
+                <label for="inputFullname" class="form-label mt-4">Fullname</label>
+                {{ form_widget(registrationForm.fullname, {'attr': {'id': 'inputFullname', 'class': 'form-control mb-3', 'autocomplete': 'name', 'required': 'true'}}) }}
+                {% if form_errors(registrationForm.fullname) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(registrationForm.fullname) }}
+                </div>
+                {% endif %}
+            </div>
+
+            {# Champ password #}
+            <div class="form-group">
+                <label for="inputPassword" class="form-label mt-4">Password</label>
+                {{ form_widget(registrationForm.password, {
+                    'label': 'Password',
+                    'attr': {'id': 'inputPassword', 'class': 'form-control mb-3', 'autocomplete': 'current-password', 'required': 'true'}
+                }) }}
+                {% if form_errors(registrationForm.password) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(registrationForm.password) }}
+                </div>
+                {% endif %}
+            </div>
+
+            {# Champ handicap_way (boutons radio) #}
+            <div class="form-group mt-3 mb-3">
+                <label class="form-label">Do you have handicap access?</label>
+                {{ form_widget(registrationForm.handicap_way) }}
+                {% if form_errors(registrationForm.handicap_way) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(registrationForm.handicap_way) }}
+                </div>
+                {% endif %}
+            </div>
+
+            {# Champ agreeTerms (checkbox)
+            <div class="form-check mt-3">
+                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input toggle-password-button'}}) }}
+                <label class="form-check-label" for="agreeTerms">
+                    I agree to the terms and conditions
+                </label>
+                {% if form_errors(registrationForm.agreeTerms) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                </div>
+                {% endif %}
+            </div> #}
+
+            {# Bouton de soumission #}
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+
+        {{ form_end(registrationForm) }}
+        
+    </div>
+{% endblock %}

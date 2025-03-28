@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfilController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+
+    <fieldset class="card shadow p-2">
+        <legend class="text-info">Informations Personnelles</legend>
+        <form action="" method="post">
+
+            <div class="col-12 row">
+                <div class="mb-2 col-md-6">
+                    <label class="form-label" for="idinputFullname" id="idinputFullname">Nom Complet</label>
+                    <input class="form-control" type="text" name="idinputFullname" id="idinputFullname" value= {{fullname}} readOnly>
+                </div>
+                
+                <div class="mb-2 col-md-6">
+                    <label class="form-label" for="idinputPlace" id="idinputPlace">Type d'Autorisation</label>
+                    <input class="form-control" type="text" name="idinputPlace" id="idinputPlace" value={% if HandicWay == null %}"Place non Handicapée" {% else %} "Place Handicapée"{% endif %} readOnly>
+                </div>
+                
+                <div class="mb-2 col-12">
+                    <label class="form-label" for="idinputemail" id="idinputemail">Adresse Email</label>
+                    <input class="form-control" type="email" name="idinputemail" id="idinputemail" value={{email}} readOnly>
+                </div>
+
+                <div class="mb-2 col-12">
+                    <label class="form-label" for="idinputpassword" id="idinputpassword">Nouveau Mot de Passe</label>
+                    <input class="form-control" type="password" name="idinputpassword" id="idinputpassword">
+                </div>
+                
+                <div class="mb-2 col-12">
+                    <label class="form-label" for="idinputConfirmpassword" id="idinputConfirmpassword">Confirmer le Mot de Passe</label>
+                    <input class="form-control" type="password" name="idinputConfirmpassword" id="idinputConfirmpassword">
+                </div>
+            </div>
+            <input class=" btn btn-primary" type="submit" value="Mettre à jour">
+        </form>
+    </fieldset>
+
+    <fieldset class="mt-4 card shadow p-2 bg-secondary">
+        <legend>Actions supplémentaires</legend>
+        <div class="col-12 row">
+        
+            <div class="col-6 my-auto">
+                <a href="{{path('app_remove_profil')}}" class="btn btn-danger">Supprimer mon compte</a>
+            </div>
+            <div class="col-6 border rounded p-1 my-auto">
+                <legend>Langue</legend>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>English</option>
+                    <option value="1">French</option>
+                    <option value="2">Chinese</option>
+                    <option value="3">Sapnish</option>
+                </select>
+                <a href="#" class="btn btn-secondary mt-2">Mettre à jour</a>
+            </div>
+        </div>
+    </fieldset>
+</div>
+{% endblock %}
