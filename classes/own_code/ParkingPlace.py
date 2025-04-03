@@ -62,7 +62,6 @@ class ParkingPlace:
         print(f"Nombre de places détectées : {len(unique_lines) - 1}")
         return len(unique_lines) - 1
 
-
 def mainFullPlace(img):
     rem = ParkingPlace(img)
     result = rem.ParkingField()  # Détecte les lignes

@@ -12,7 +12,7 @@ from web.server.config import DB
 
 
 # Image à prédire
-park0 = "PARK.jpeg" # Parling Image
+park0 = "park.jpg" # Parling Image
 img = "carrefour.webp" # Banner of Agency
 
 strcut =  mainStructure(img)
